@@ -30,15 +30,75 @@ The type if node is oddevennode ,and not Node .
 */
 #include <stdlib.h>
 #include <stdio.h>
+#include<malloc.h>
 
 struct oddevennode{
 	int data;
 	struct oddevennode * next;
 	struct oddevennode * random;
-
 };
 
 int * oddeven_sll(struct oddevennode *head){
-
-	return NULL;
+	if (head == NULL)
+		return NULL;
+	else
+	{
+		struct oddevennode *temp;
+		temp = head;
+		int *arr;
+		int oddcount = 0, evencount = 0;
+		arr = (int*)malloc(sizeof(int) * 2);
+		while (temp != NULL)
+		{
+			temp->random = NULL;
+			if ((temp->data) % 2 == 0)
+				evencount++;
+			else
+				oddcount++;
+			temp = temp->next;
+		}
+		int *oddarr, *evenarr;
+		oddarr = (int*)malloc(sizeof(int)*oddcount);
+		evenarr = (int*)malloc(sizeof(int)*evencount);
+		temp = head;
+		int i = 0,j=0;
+		while (temp != NULL)
+		{
+			if ((temp->data) % 2 == 0)
+			{
+				evenarr[i] = temp->data;
+				i++;
+			}
+			else
+			{
+				oddarr[j] = temp->data;
+				j++;
+			}
+			temp = temp->next;
+		}
+		struct oddevennode*temp2;
+		i = 0, j = 0;
+		temp2 = head;
+		temp = head;
+		temp->data = evenarr[i];
+			while (i<evencount)
+			{
+				i++;
+				temp->random->data = evenarr[i];
+				temp = temp->random;	
+			}
+			i = 0, j = 0;
+			temp2 = head;
+			temp = head;
+			temp->data = oddarr[j];
+			while (j<oddcount)
+			{
+				j++;
+				temp->random->data = oddarr[j];
+				temp = temp->random;
+			}
+		arr[0] = oddcount;
+		arr[1] = evencount;
+		return arr;
+	}
 }
